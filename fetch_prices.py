@@ -1,13 +1,26 @@
 import requests
+from bs4 import BeautifulSoup
 import json
 
-# منبع ایرانی (tgju)
-url = "https://api.tgju.org/v1/market/summary"
-r = requests.get(url, timeout=20)
-data = r.json()
+# سایت ایرانی bonbast
+url = "https://bonbast.com"
 
-usd = data["data"]["usd"]["price"]
-ounce = data["data"]["ounce"]["price"]
+headers = {
+    "User-Agent": "Mozilla/5.0"
+}
+
+r = requests.get(url, headers=headers, timeout=20)
+html = r.text
+
+soup = BeautifulSoup(html, "html.parser")
+
+# دلار آزاد
+usd = soup.find("td", {"id": "usd1"}).text.strip().replace(",", "")
+usd = int(usd)
+
+# اونس جهانی طلا
+ounce = soup.find("td", {"id": "goldu"}).text.strip().replace(",", "")
+ounce = float(ounce)
 
 result = {
     "usd": usd,
