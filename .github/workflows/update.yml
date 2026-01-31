@@ -16,8 +16,8 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install requests
-        run: pip install requests
+      - name: Install libs
+  run: pip install requests beautifulsoup4
 
       - name: Run script
         run: python fetch_prices.py
