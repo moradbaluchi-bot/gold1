@@ -3,13 +3,15 @@ name: Update Gold Data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/30 * * * *"   # هر 30 دقیقه
 
 jobs:
   update:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -24,8 +26,8 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "bot"
-          git config user.email "bot@github.com"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
           git add data.json
           git commit -m "update prices" || echo "no change"
           git push
